@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebApplication1.Models.BOOK_DATA>
+<br />
+
+@using (Html.BeginForm("search", "Home", FormMethod.Get))
+{
+    @Html.TextBox("searching") <button type="submit" class="btn btn-default">搜尋書名</button>
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>書名</td>
+            <td>類別</td>
+            <td>作者</td>
+            <td>購書日期</td>
+            <td>出版社</td>
+            <td>內容簡介</td>
+            <td>
+                借閱狀態
+            </td>
+            <td>
+                借閱人
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="8" style="color:red">
+                    no match
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.BOOK_NAME</td>
+                    <td>@item.BOOK_CLASS_ID</td>
+                    <td>@item.BOOK_AUTHOR</td>
+                    <td>@item.BOOK_BOUGHT_DATE</td>
+                    <td>@item.BOOK_PUBLISHER</td>
+                    <td>@item.BOOK_NOTE</td>
+                    <td>@item.BOOK_STATUS</td>
+                    <td>@item.BOOK_KEEPER</td>
+                    <td><a href="@Url.Action( "Edit", new { aid = item.BOOK_CLASS_ID })" class="btn btn-info">編輯</a>
+                    <a onclick="return confirm('確定刪除嗎?');" href="@Url.Action( "Delete", new { aid = item.BOOK_CLASS_ID })" class="btn btn-danger">刪除</a></td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>

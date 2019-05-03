@@ -1,0 +1,60 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<WebApplication1.Models.Table>
+
+@{
+    ViewBag.Title = "Index";
+}
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+<h2>Index</h2>
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-info">新增資料</a>
+    <a href="@Url.Action("search")" class="btn btn-danger">搜尋資料</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().BOOK_CLASS_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CREATE_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CREATE_USER)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().MODIFY_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().MODIFY_USER)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BOOK_CLASS_NAME)
+            </td>
+            <td>
+                @DateTime.Parse(item.CREATE_DATE.ToString()).ToShortDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CREATE_USER)
+            </td>
+            <td>
+                @DateTime.Parse(item.MODIFY_DATE.ToString()).ToShortDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MODIFY_USER)
+            </td>
+            <td>
+                <a href="@Url.Action( "Edit", new { aid = item.BOOK_CLASS_ID })" class="btn btn-info">編輯</a>
+                <a onclick="return confirm('確定刪除嗎?');" href="@Url.Action( "Delete", new { aid = item.BOOK_CLASS_ID })" class="btn btn-danger">刪除</a>
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.PagedListPager(Model,page=>Url.Action("index",new { page}))
